@@ -15,10 +15,10 @@ unsigned int result = 0;
 void LUX_PROCENTA(void);
 void lcd_print(unsigned int value);
 void ADC_Read(void);
-
+//funkce pro přepínání mezi procenty a luxy
 void LUX_PROCENTA(void){
 		if (stav_tlacitka==0) {
-			procenta = 106.4516-(prevod/31); 
+			procenta = 106.4516-(prevod/31);//přepočet odpovídá 200mV max a 3.3V min intenzita světla 
 			if (procenta > 100) procenta = 100;
 			if (procenta < 0) procenta = 0;
 			lcd_gotoxy(10,1);
@@ -28,7 +28,7 @@ void LUX_PROCENTA(void){
 			lcd_putchar('%');
 		} else if (stav_tlacitka==1) {
 			lcd_gotoxy(11,1);
-			lux = 46000.0 - 95.7 * prevod + 0.068 * prevod * prevod - 0.000016 * prevod * prevod * prevod;
+			lux = 46000.0 - 95.7 * prevod + 0.068 * prevod * prevod - 0.000016 * prevod * prevod * prevod;//prepočet realizován pomocí snímače osvětlení z mobilu
 			if (lux > 20000) lux = 20000;
 			if (lux < 0) lux = 0;
 			lcd_gotoxy(10,1);
@@ -50,7 +50,7 @@ void lcd_print(unsigned int value)//int na str
 		lcd_puts(str);
 }
 
-void main()//hlavni funkce
+void main()//hlavní funkce
 {
 GPIO_Init(GPIOE, GPIO_PIN_4,GPIO_MODE_IN_FL_NO_IT);	
 lcd_init();
@@ -65,11 +65,11 @@ while (1)
 {
 		ADC_Read();
     adc_val = result;
-    prevod = adc_val*3.2258;//3.3/1023-1023 10 bit�
+    prevod = adc_val*3.2258;//výpočet hodnoty napětí z ADC
     lcd_gotoxy(4,1);
     lcd_print(prevod);
     LUX_PROCENTA();
-    if (GPIO_ReadInputPin(SPINAC) == RESET) {//tlacitko na procenta/lux
+    if (GPIO_ReadInputPin(SPINAC) == RESET) {//tlačítko na procenta/lux
         delay_mss(20);
         if (GPIO_ReadInputPin(SPINAC) == RESET) {
             stav_tlacitka = (stav_tlacitka + 1) % 2;
@@ -80,7 +80,7 @@ while (1)
     delay_mss(100);
 }
 }
-//ADC prevodn�k 
+//ADC převodník 
 void ADC_Read(void)
  {
 	ADC1_DeInit();
