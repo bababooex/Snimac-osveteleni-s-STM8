@@ -1,1 +1,2 @@
 # Snimac-osveteleni-s-STM8
+Jednoduchý snímač osvětlení, který využívá modul světelného senzoru se 4 piny, pro tento projekt jsou zajímavé jen 3 - napájení, zem a analogový výstup. I když tento modul s fotorezistorem není příliš přesný, je použitelný pro demonstrační účely, nebo jako výchozí bod pro další projekty s tímto senzorem. Analogový výstup je samozřejmě zpracováván pomocí AD převodníku. Knihovna na LCD je odtud: http://www.elektromys.eu/knihovny.php.
