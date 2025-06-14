@@ -1,0 +1,1 @@
+# Snimac-osveteleni-s-STM8
